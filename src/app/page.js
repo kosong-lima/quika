@@ -1,101 +1,94 @@
-import Image from "next/image";
-
-export default function Home() {
+export default function Page() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={181}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="bg-blue-900 h-screen text-white">
+      {/* Header Section */}
+      <div className="flex items-center justify-between p-4 border-b border-blue-800">
+        {/* Title */}
+        <div className="text-lg font-bold">Survey #1</div>
+        {/* Action Buttons */}
+        <div className="space-x-4">
+          {/* Share Button */}
+          <button className="text-blue-300 hover:underline">Share</button>
+          {/* View Results Button */}
+          <button className="text-blue-300 hover:underline">View Results</button>
+          {/* Publish Button */}
+          <button className="bg-green-500 px-4 py-2 rounded text-white">Publish</button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
+
+      {/* Main Content Section */}
+      <div className="flex h-full">
+        {/* Sidebar */}
+        <div className="w-1/4 bg-blue-800 p-4">
+          {/* List of Sections */}
+          <div className="space-y-4">
+            {["Section #1", "Section #2", "Section #3", "Section #4"].map((section, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-between px-2 py-3 bg-blue-700 rounded cursor-pointer hover:bg-blue-600"
+              >
+                {/* Section Name */}
+                <span>{section}</span>
+                {/* Circle Indicator */}
+                <span className="text-blue-400">•</span>
+              </div>
+            ))}
+          </div>
+          {/* Organize Sections Button */}
+          <button className="mt-4 text-blue-300 hover:underline">Organize Sections</button>
+        </div>
+
+        {/* Form Section */}
+        <div className="flex-1 p-6">
+          {/* Form Container */}
+          <div className="bg-blue-800 p-6 rounded-lg shadow-lg">
+            {/* Question Input and Dropdown */}
+            <div className="flex justify-between items-center mb-4">
+              {/* Input for the Question */}
+              <input
+                type="text"
+                placeholder="Question..."
+                className="w-full bg-transparent border-b border-blue-600 outline-none text-lg placeholder-blue-400"
+              />
+              {/* Dropdown Selector */}
+              <select className="ml-4 bg-blue-700 text-white rounded p-2 outline-none">
+                <option>Dropdown</option>
+                <option>Text</option>
+                <option>Multiple Choice</option>
+              </select>
+            </div>
+            {/* Options List */}
+            <div className="space-y-2">
+              {/* Option 1 */}
+              <div className="flex items-center">
+                <span className="mr-2">1.</span>
+                <input
+                  type="text"
+                  placeholder="Option 1"
+                  className="w-full bg-transparent border-b border-blue-600 outline-none placeholder-blue-400"
+                />
+              </div>
+              {/* Option 2 */}
+              <div className="flex items-center">
+                <span className="mr-2">2.</span>
+                <input
+                  type="text"
+                  placeholder="Option 2"
+                  className="w-full bg-transparent border-b border-blue-600 outline-none placeholder-blue-400"
+                />
+              </div>
+            </div>
+            {/* Done Button */}
+            <button className="mt-4 text-blue-300 hover:underline">Done</button>
+          </div>
+          {/* Add New Section */}
+          <button className="mt-6 flex items-center space-x-2 text-blue-300 hover:underline">
+            {/* Add Icon */}
+            <span className="bg-blue-700 p-2 rounded-full">+</span>
+            <span>Add</span>
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
