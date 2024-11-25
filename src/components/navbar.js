@@ -8,8 +8,8 @@ export default function Navbar() {
                     <p className="font-bold pr-10">QUIKA</p>
                 <nav className="flex font-semibold ">
                     <MenuHeader href="/home">Home</MenuHeader>
-                    <MenuHeader>Quizz</MenuHeader>
-                    <MenuHeader>Support</MenuHeader>
+                    <MenuHeader href="/quizz">Quizz</MenuHeader>
+                    <MenuHeader href="">Support</MenuHeader>
                 </nav>
                 </div>
                 <p className="font-bold">KALSIKA</p>
