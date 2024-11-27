@@ -16,6 +16,7 @@ export const theme = {
         },
         backgroundImage: {
             'custom-gradient': 'linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%)', // Gradient baru
+            'glass': 'rgba(255, 255, 255, 0.1)',
         },
     },
 }

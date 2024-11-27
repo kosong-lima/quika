@@ -1,70 +1,97 @@
-"use client"
+'use client';
 
+import { useState, useEffect } from "react";
+import { Button, Input, Card } from "@nextui-org/react";
 import Navbar from "@/components/navbar";
-import { Button, Input, Select, SelectItem } from "@nextui-org/react"
-import Link from "next/link"
-import React, { useState } from "react"
 
-export default function Page() {
-    const gravitations = [
-        { key: "9,8", label: "9,8 m/s²" },
-        { key: "10", label: "10 m/s²" },
-    ]
+// Pertanyaan yang sudah ditentukan
+const questions = [
+  {
+    question: "Alfi?",
+    answer: "Kanjeng"
+  },
+  {
+    question: "Apa hukum Newton yang kedua?",
+    answer: "Percepatan suatu benda berbanding lurus dengan gaya total yang bekerja padanya dan berbanding terbalik dengan massa benda."
+  },
+  {
+    question: "Apa hukum Newton yang ketiga?",
+    answer: "Setiap aksi akan menimbulkan reaksi yang sama besar dan berlawanan arah."
+  },
+];
 
-    const [massa, setMassa] = useState(null)
-    const [gravitasi, setGravitasi] = useState(null)
-    const [hasil, setHasil] = useState(null)
+export default function QuizzPage() {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [userAnswer, setUserAnswer] = useState("");
+  const [feedback, setFeedback] = useState("");
+  const [quizComplete, setQuizComplete] = useState(false);
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);  // Menyimpan soal yang sudah diacak
 
-    const hitungNewton1 = () => {
-        if (massa !== null && gravitasi !== null) {
-            const hasil = massa * parseFloat(gravitasi)
-            setHasil(hasil)
-        }
+  // Mengacak urutan soal setiap kali komponen pertama kali dimuat
+  useEffect(() => {
+    // Membuat salinan dari array questions dan mengacak urutannya
+    const shuffled = [...questions].sort(() => Math.random() - 0.5);
+    setShuffledQuestions(shuffled);
+  }, []);  // Menjalankan hanya sekali saat komponen pertama kali dimuat
+
+  // Reset jawaban dan feedback ketika soal berubah
+  useEffect(() => {
+    setFeedback("");
+    setUserAnswer("");
+  }, [currentQuestion]);
+
+  const handleSubmit = () => {
+    if (userAnswer.toLowerCase().trim() === shuffledQuestions[currentQuestion].answer.toLowerCase()) {
+      setFeedback("Jawaban Benar!");
+      if (currentQuestion < shuffledQuestions.length - 1) {
+        setTimeout(() => setCurrentQuestion(currentQuestion + 1), 1000); // Pindah ke soal berikut setelah 1 detik
+      } else {
+        setQuizComplete(true); // Jika soal sudah habis, quiz selesai
+      }
+    } else {
+      setFeedback("Jawaban Salah, ulangi soal!");
+      setTimeout(() => setFeedback(""), 2000); // Hapus feedback setelah 2 detik
     }
+  };
 
-    return (
-        <main className="flex flex-col items-center">
-            <Navbar />
-            <div className="flex flex-col items-center w-full justify-center min-h-[85dvh] p-10 gap-y-5 max-w-5xl">
-                <div className="flex w-full gap-x-5">
-                    <div className="flex w-full py-5 pl-8 text-xl font-bold bg-gray-200 rounded-xl">Hukum Newton 1</div>
-                    <div className="flex items-center justify-center w-56 px-5 italic bg-gray-200 rounded-xl">
-                        <Link href="/kalkulator/newton-2">Hukum Newton 2 &gt;</Link>
-                    </div>
-                </div>
-                <div className="flex w-full gap-x-5">
-                    <div className="flex flex-col w-2/3 px-8 py-5 text-lg font-semibold bg-gray-200 gap-y-8 rounded-xl">
-                        <p>Isi Sendiri Ya Ndes!!</p>
-                        <div className="flex flex-col max-w-full gap-y-5">
-                            <Input
-                                label="m (Massa)"
-                                type="number"
-                                onChange={(e) => setMassa(parseFloat(e.target.value))}
-                                endContent={<p className="text-sm text-gray-400">kg</p>}
-                            />
-                            <Select label="Mo gravitasi brapa?" onChange={(e) => setGravitasi(e.target.value)}>
-                                {gravitations.map((gravitation) => (
-                                    <SelectItem key={gravitation.key}>{gravitation.label}</SelectItem>
-                                ))}
-                            </Select>
-                        </div>
-                        <div className="flex justify-end">
-                            <Button color="primary" className="bg-black" onClick={hitungNewton1}>
-                                <p className="font-bold">Wess</p>
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-col items-center justify-center w-1/3 bg-gray-200 rounded-xl">
-                        {hasil ? (
-                            <>
-                                <p className="text-5xl font-bold">{hasil ? `${hasil} N` : ""}</p>
-                            </>
-                        ) : (
-                            <p className="text-xl font-semibold">Hasil ntar disini</p>
-                        )}
-                    </div>
-                </div>
-            </div>
-        </main>
-    )
+  return (
+    <main className="mx-24">
+      <Navbar></Navbar>
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="absolute inset-0 "></div>
+        <Card className="relative p-8 w-96 max-w-sm bg-white bg-opacity-60 backdrop-blur-md shadow-lg rounded-lg">
+          <h2 className="text-center text-black mb-4">QUIKA | Quizz Fisika</h2>
+          {quizComplete ? (
+            <p className="text-center text-black">Selamat, Anda telah menyelesaikan quiz!</p>
+          ) : (
+            <>
+              <div className="mb-4">
+                <p className="text-black">{shuffledQuestions[currentQuestion]?.question}</p>
+              </div>
+              <Input
+                aria-label="Your answer"
+                value={userAnswer}
+                onChange={(e) => setUserAnswer(e.target.value)}
+                fullWidth
+                clearable
+                className="mb-4"
+              />
+              <Button onClick={handleSubmit} color="primary" className="mb-4 w-full">
+                Simpan
+              </Button>
+              {feedback && (
+                <p
+                  className={`text-center ${
+                    feedback.includes("Benar") ? "text-green-500" : "text-red-500"
+                  }`}
+                >
+                  {feedback}
+                </p>
+              )}
+            </>
+          )}
+        </Card>
+      </div>
+    </main>
+  );
 }

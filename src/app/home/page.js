@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <main className="flex flex-col min-h-screen mx-24">
       <Navbar />
-      <div className="flex-1 flex items-center justify-center min-h-[94.4dvh]">
+      <div className="flex-1 flex items-center justify-center min-h-[93dvh]">
         <div className="flex w-full max-w-6xl ">
           {/* Gambar di Kiri */}
           <div className="w-1/2 p-4">
