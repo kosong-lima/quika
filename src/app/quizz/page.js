@@ -6,9 +6,25 @@ import Navbar from "@/components/navbar";
 
 const Quizz = () => {
   const questions = [
-    { question: "Apa itu Hukum Newton pertama?", answer: "Inersia" },
-    { question: "Apa satuan dari gaya?", answer: "Newton" },
-    { question: "Apa yang dimaksud dengan percepatan?", answer: "Perubahan kecepatan per satuan waktu" },
+    { question: "Seorang Wanita mendorong sebuah meja dengan gaya ​F1 = 5N ke arah timur, dan temannya juga mendorong meja dengan gaya F2 = 3N ke arah yang sama. Berapa besar gaya total yang bekerja pada meja tersebut?",
+      answer: "8" },
+    { question: "Rusdi menarik tali dengan gaya F1 = 8N ke arah utara, sementara orang lain menarik tali yang sama dengan gaya F2 = 5 N ke arah selatan. Berapa besar resultan gaya yang bekerja? dan kearah  mana ressultan gaya tersebut?",
+      answer: "3" },
+    { question: "Sebuah kotak dengan massa 2 kg diletakkan di atas meja datar dan tetap diam. Jika percepatan gravitasi g = 10 m / s2 Hitunglah berapa gaya gravitasi yang bekerja pada kotak?",
+      answer: "20" },
+    { question: "Sebuah gaya 60 N bekerja pada sebuah benda bermassa 15 kg. Jika gaya gesekan yang melawan gerak benda sebesar 20 N, berapakah percepatan benda tersebut?",
+      answer: "2,67" },
+    { question: "Sebuah peti bermassa 20 kg bergerak di atas lantai kasar dengan percepatan 1 m/s². Jika gaya total yang bekerja pada peti adalah 40 N, berapakah gaya gesekan yang dialami peti tersebut?",
+      answer: "20" },
+    { question: "Sebuah balok bermassa 8 kg didorong dengan gaya 40 N pada bidang miring licin",
+      answer: "5" },
+    { question: "Sebuah pegas memiliki konstanta pegas  k = 200 N/m . Jika pegas ditarik hingga mengalami pertambahan panjang sebesar 0,1 m, berapakah besar gaya yang diperlukan untuk menarik pegas tersebut?",
+      answer: "20" },
+    { question: "Sebuah balok dengan massa 5 kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah 0,4. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut?",
+      answer: "19,6" },
+    { question: "Sebuah balok bermassa 4 kg ditarik di atas permukaan kasar dengan gaya horizontal sebesar 30 N. Koefisien gesek kinetis antara balok dan permukaan adalah 0,2. Berapakah percepatan balok tersebut?",
+      answer: "5,54" },
+   
     // Tambahkan soal lainnya sesuai kebutuhan
   ];
 
@@ -129,3 +145,4 @@ const Quizz = () => {
 };
 
 export default Quizz;
+
