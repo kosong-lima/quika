@@ -1,92 +1,124 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Input, Card } from "@nextui-org/react";
 import Navbar from "@/components/navbar";
 
-// Pertanyaan yang sudah ditentukan
-const questions = [
-  {
-    question: "Alfi?",
-    answer: "Kanjeng"
-  },
-  {
-    question: "Apa hukum Newton yang kedua?",
-    answer: "Percepatan suatu benda berbanding lurus dengan gaya total yang bekerja padanya dan berbanding terbalik dengan massa benda."
-  },
-  {
-    question: "Apa hukum Newton yang ketiga?",
-    answer: "Setiap aksi akan menimbulkan reaksi yang sama besar dan berlawanan arah."
-  },
-];
+const Quizz = () => {
+  const questions = [
+    { question: "Apa itu Hukum Newton pertama?", answer: "Inersia" },
+    { question: "Apa satuan dari gaya?", answer: "Newton" },
+    { question: "Apa yang dimaksud dengan percepatan?", answer: "Perubahan kecepatan per satuan waktu" },
+    // Tambahkan soal lainnya sesuai kebutuhan
+  ];
 
-export default function QuizzPage() {
+  const [shuffledQuestions, setShuffledQuestions] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswer, setUserAnswer] = useState("");
   const [feedback, setFeedback] = useState("");
   const [quizComplete, setQuizComplete] = useState(false);
-  const [shuffledQuestions, setShuffledQuestions] = useState([]);  // Menyimpan soal yang sudah diacak
+  const [quizStarted, setQuizStarted] = useState(false); // Menyimpan status quiz (dimulai atau belum)
 
-  // Mengacak urutan soal setiap kali komponen pertama kali dimuat
+  // Mengacak soal saat komponen pertama kali dimuat
   useEffect(() => {
-    // Membuat salinan dari array questions dan mengacak urutannya
-    const shuffled = [...questions].sort(() => Math.random() - 0.5);
-    setShuffledQuestions(shuffled);
-  }, []);  // Menjalankan hanya sekali saat komponen pertama kali dimuat
+    setShuffledQuestions(questions.sort(() => Math.random() - 0.5));
+  }, []);
 
-  // Reset jawaban dan feedback ketika soal berubah
-  useEffect(() => {
-    setFeedback("");
-    setUserAnswer("");
-  }, [currentQuestion]);
-
+  // Handle submit jawaban
   const handleSubmit = () => {
-    if (userAnswer.toLowerCase().trim() === shuffledQuestions[currentQuestion].answer.toLowerCase()) {
-      setFeedback("Jawaban Benar!");
-      if (currentQuestion < shuffledQuestions.length - 1) {
-        setTimeout(() => setCurrentQuestion(currentQuestion + 1), 1000); // Pindah ke soal berikut setelah 1 detik
-      } else {
-        setQuizComplete(true); // Jika soal sudah habis, quiz selesai
-      }
+    const correctAnswer = shuffledQuestions[currentQuestion].answer;
+
+    // Cek apakah jawaban benar
+    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+      setFeedback("Benar! Hebat, kamu berhasil menjawab soal dengan tepat!");
+
+      // Cek jika sudah menjawab soal terakhir
+      setQuizComplete(true)
     } else {
-      setFeedback("Jawaban Salah, ulangi soal!");
-      setTimeout(() => setFeedback(""), 2000); // Hapus feedback setelah 2 detik
+      setFeedback("Jawaban salah. Coba lagi dengan soal yang baru!");
+      setUserAnswer(""); // Reset jawaban
+      // Acak soal dan tampilkan soal baru jika jawaban salah
+      setCurrentQuestion(Math.floor(Math.random() * shuffledQuestions.length)); 
     }
+  };
+
+  // Mulai quiz
+  const startQuiz = () => {
+    setQuizStarted(true);
+  };
+
+  // Restart quiz
+  const restartQuiz = () => {
+    setQuizComplete(false);
+    setCurrentQuestion(0);
+    setUserAnswer("");
+    setFeedback("");
+    setQuizStarted(true);
+  };
+
+  // Exit quiz
+  const handleExitQuiz = () => {
+    setQuizStarted(false);
+    setQuizComplete(false);
+    setCurrentQuestion(0);
+    setUserAnswer("");
+    setFeedback("");
   };
 
   return (
     <main className="mx-24">
-      <Navbar></Navbar>
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="absolute inset-0 "></div>
+      <Navbar />
+      <div className="flex justify-center items-center min-h-[94dvh] relative">
+        <div className="absolute inset-0"></div>
         <Card className="relative p-8 w-96 max-w-sm bg-white bg-opacity-60 backdrop-blur-md shadow-lg rounded-lg">
-          <h2 className="text-center text-black mb-4">QUIKA | Quizz Fisika</h2>
-          {quizComplete ? (
-            <p className="text-center text-black">Selamat, Anda telah menyelesaikan quiz!</p>
+          {/* Menampilkan bagian awal quiz jika belum dimulai */}
+          {!quizStarted ? (
+            <>
+              <h2 className="text-center text-black mb-4">QUIKA | Quizz Fisika</h2>
+              <Button onClick={startQuiz} color="primary" className="w-full">
+                Mulai Quiz
+              </Button>
+            </>
           ) : (
             <>
-              <div className="mb-4">
-                <p className="text-black">{shuffledQuestions[currentQuestion]?.question}</p>
-              </div>
-              <Input
-                aria-label="Your answer"
-                value={userAnswer}
-                onChange={(e) => setUserAnswer(e.target.value)}
-                fullWidth
-                clearable
-                className="mb-4"
-              />
-              <Button onClick={handleSubmit} color="primary" className="mb-4 w-full">
-                Simpan
-              </Button>
-              {feedback && (
-                <p
-                  className={`text-center ${
-                    feedback.includes("Benar") ? "text-green-500" : "text-red-500"
-                  }`}
-                >
-                  {feedback}
-                </p>
+              {/* Menampilkan bagian quiz jika sedang berlangsung */}
+              {quizComplete ? (
+                <div className="text-center">
+                  <p className="text-black">Selamat, Anda telah menyelesaikan quiz!</p>
+                  <Button onClick={restartQuiz} color="primary" className="w-full mt-4">
+                    Mulai Lagi
+                  </Button>
+                  <Button onClick={handleExitQuiz} color="secondary" className="w-full mt-4">
+                    Akhiri Quiz
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <h2 className="text-center text-black mb-4">QUIKA | Quizz Fisika</h2>
+                  <div className="mb-4">
+                    <p className="text-black">{shuffledQuestions[currentQuestion]?.question}</p>
+                  </div>
+                  <Input
+                    aria-label="Your answer"
+                    value={userAnswer}
+                    onChange={(e) => setUserAnswer(e.target.value)}
+                    fullWidth
+                    clearable
+                    className="mb-4"
+                  />
+                  <Button onClick={handleSubmit} color="primary" className="mb-4 w-full">
+                    Simpan
+                  </Button>
+                  {feedback && (
+                    <p
+                      className={`text-center ${
+                        feedback.includes("Benar") ? "text-green-500" : "text-red-500"
+                      }`}
+                    >
+                      {feedback}
+                    </p>
+                  )}
+                </>
               )}
             </>
           )}
@@ -94,4 +126,6 @@ export default function QuizzPage() {
       </div>
     </main>
   );
-}
+};
+
+export default Quizz;
