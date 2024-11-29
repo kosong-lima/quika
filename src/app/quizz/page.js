@@ -5,58 +5,14 @@ import { Button, Input, Card } from "@nextui-org/react"
 import Navbar from "@/components/navbar"
 
 const Quizz = () => {
-    const questions_old = [
-        // {
-        //     question:
-        //         "Seorang Wanita mendorong sebuah meja dengan gaya ​F1 = 5N ke arah timur, dan temannya juga mendorong meja dengan gaya F2 = 3N ke arah yang sama. Berapa besar gaya total yang bekerja pada meja tersebut?",
-        //     answer: "8",
-        // },
-        // {
-        //     question:
-        //         "Rusdi menarik tali dengan gaya F1 = 8N ke arah utara, sementara orang lain menarik tali yang sama dengan gaya F2 = 5 N ke arah selatan. Berapa besar resultan gaya yang bekerja?",
-        //     answer: "3",
-        // },
-        // {
-        //     question:
-        //         "Sebuah kotak dengan massa 2 kg diletakkan di atas meja datar dan tetap diam. Jika percepatan gravitasi g = 10 m / s2 Hitunglah berapa gaya gravitasi yang bekerja pada kotak?",
-        //     answer: "20",
-        // },
-        // {
-        //     question:
-        //         "Sebuah gaya 60 N bekerja pada sebuah benda bermassa 15 kg. Jika gaya gesekan yang melawan gerak benda sebesar 20 N, berapakah percepatan benda tersebut?",
-        //     answer: "2,67",
-        // },
-        // {
-        //     question:
-        //         "Sebuah peti bermassa 20 kg bergerak di atas lantai kasar dengan percepatan 1 m/s². Jika gaya total yang bekerja pada peti adalah 40 N, berapakah gaya gesekan yang dialami peti tersebut?",
-        //     answer: "20",
-        // },
-        // { question: "Sebuah balok bermassa 8 kg didorong dengan gaya 40 N pada bidang miring licin", answer: "5" },
-        // {
-        //     question:
-        //         "Sebuah pegas memiliki konstanta pegas  k = 200 N/m . Jika pegas ditarik hingga mengalami pertambahan panjang sebesar 0,1 m, berapakah besar gaya yang diperlukan untuk menarik pegas tersebut?",
-        //     answer: "20",
-        // },
-        // {
-        //     question:
-        //         "Sebuah balok dengan massa 5 kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah 0,4. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut?",
-        //     answer: "19,6",
-        // },
-        // {
-        //     question:
-        //         "Sebuah balok bermassa 4 kg ditarik di atas permukaan kasar dengan gaya horizontal sebesar 30 N. Koefisien gesek kinetis antara balok dan permukaan adalah 0,2. Berapakah percepatan balok tersebut?",
-        //     answer: "5,54",
-        // },
-        // Tambahkan soal lainnya sesuai kebutuhan
-    ]
-
     function generateQuestion1() {
         const F1 = Math.floor(Math.random() * 99) + 1
         const F2 = Math.floor(Math.random() * 99) + 1
         const answer = F1 + F2
         const question = `Seorang wanita mendorong sebuah meja dengan gaya F1 = ${F1} N ke arah timur, dan temannya juga mendorong meja dengan gaya F2 = ${F2} N ke arah yang sama. Berapa besar gaya total yang bekerja pada meja tersebut?`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) } // tofixed = ngambil hanya 2 angka dibelakang kome
+        // 98.12
     }
 
     function generateQuestion2() {
@@ -65,7 +21,7 @@ const Quizz = () => {
         const answer = F1 - F2
         const question = `Rusdi menarik tali dengan gaya F1 = ${F1} N ke arah utara, sementara orang lain menarik tali yang sama dengan gaya F2 = ${F2} N ke arah selatan. Berapa besar resultan gaya yang bekerja?`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion3() {
@@ -74,7 +30,7 @@ const Quizz = () => {
         const answer = massa * gravity
         const question = `Sebuah kotak dengan massa ${massa} kg diletakkan di atas meja datar dan tetap diam. Jika percepatan gravitasi g = ${gravity} m/s², hitunglah berapa gaya gravitasi yang bekerja pada kotak?`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion4() {
@@ -88,7 +44,7 @@ const Quizz = () => {
         const answer = resultan / massa
         const question = `Sebuah gaya ${total} N bekerja pada sebuah benda bermassa ${massa} kg. Jika gaya gesekan yang melawan gerak benda sebesar ${gesek} N, berapakah percepatan benda tersebut?`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion5() {
@@ -99,7 +55,7 @@ const Quizz = () => {
         const answer = total - resultan
         const question = `Sebuah peti bermassa ${massa} kg bergerak di atas lantai kasar dengan percepatan ${percepatan} m/s². Jika gaya total yang bekerja pada peti adalah ${total} N, berapakah gaya gesekan yang dialami peti tersebut?`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion6() {
@@ -108,7 +64,7 @@ const Quizz = () => {
         const answer = massa / gaya
         const question = `Sebuah balok bermassa ${massa} kg didorong dengan gaya ${gaya} N pada bidang miring licin`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion7() {
@@ -117,27 +73,27 @@ const Quizz = () => {
         const answer = konstanta * panjang
         const question = `Sebuah pegas memiliki konstanta pegas k = ${konstanta} N/m . Jika pegas ditarik hingga mengalami pertambahan panjang sebesar ${panjang} m, berapakah besar gaya yang diperlukan untuk menarik pegas tersebut?`
 
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion8() {
-        const massa = Math.floor(Math.random() * 99) + 1
-        const koefisien = Math.random() * 0.9 + 0.1
+        const massa = Math.floor(Math.random() * 99) + 1 // 1-99
+        const koefisien = Math.floor(Math.random() * 9) / 10 + 0.1 //0,1 - 0,9
         const gravitasi = 10
         const answer = massa * koefisien * gravitasi
         const question = `Sebuah balok dengan massa ${massa} kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah ${koefisien}. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut jika menggunakan gravitasi ${gravitasi} m/s²?`
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     function generateQuestion9() {
         const massa = Math.floor(Math.random() * 99) + 1
         const gaya = Math.floor(Math.random() * 99) + 1
-        const koefisien = Math.random() * 0.9 + 0.1
+        const koefisien = Math.floor(Math.random() * 9) / 10 + 0.1
         const gravitasi = 10
         const gesek = koefisien * massa * gravitasi
         const answer = gaya - gesek
         const question = `Sebuah balok bermassa ${massa} kg ditarik di atas permukaan kasar dengan gaya horizontal sebesar ${gaya} N. Koefisien gesek kinetis antara balok dan permukaan adalah ${koefisien}. Berapakah percepatan balok tersebut?`
-        return { question, answer: answer.toString() }
+        return { question, answer: answer.toFixed(2) }
     }
 
     const questions = [
@@ -169,7 +125,7 @@ const Quizz = () => {
         const correctAnswer = shuffledQuestions[currentQuestion].answer
 
         // Cek apakah jawaban benar
-        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+        if (parseFloat(userAnswer) === parseFloat(correctAnswer)) {
             setFeedback("Benar! Hebat, kamu berhasil menjawab soal dengan tepat!")
 
             // Cek jika sudah menjawab soal terakhir
@@ -246,6 +202,7 @@ const Quizz = () => {
                                         clearable
                                         className="mb-4"
                                     />
+                                    <p className="text-black">{shuffledQuestions[currentQuestion]?.answer}</p>
                                     <Button onClick={handleSubmit} color="primary" className="w-full mb-4">
                                         Simpan
                                     </Button>
