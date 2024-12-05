@@ -1,148 +1,291 @@
-"use client";
-
+'use client'
 import React, { useState, useEffect } from "react";
-import { Button, Input, Card } from "@nextui-org/react";
+import { Button, Input, Card, CardBody, Progress } from "@nextui-org/react";
 import Navbar from "@/components/navbar";
 
-const Quizz = () => {
-  const questions = [
-    { question: "Seorang Wanita mendorong sebuah meja dengan gaya ​F1 = 5N ke arah timur, dan temannya juga mendorong meja dengan gaya F2 = 3N ke arah yang sama. Berapa besar gaya total yang bekerja pada meja tersebut?",
-      answer: "8" },
-    { question: "Rusdi menarik tali dengan gaya F1 = 8N ke arah utara, sementara orang lain menarik tali yang sama dengan gaya F2 = 5 N ke arah selatan. Berapa besar resultan gaya yang bekerja? dan kearah  mana ressultan gaya tersebut?",
-      answer: "3" },
-    { question: "Sebuah kotak dengan massa 2 kg diletakkan di atas meja datar dan tetap diam. Jika percepatan gravitasi g = 10 m / s2 Hitunglah berapa gaya gravitasi yang bekerja pada kotak?",
-      answer: "20" },
-    { question: "Sebuah gaya 60 N bekerja pada sebuah benda bermassa 15 kg. Jika gaya gesekan yang melawan gerak benda sebesar 20 N, berapakah percepatan benda tersebut?",
-      answer: "2,67" },
-    { question: "Sebuah peti bermassa 20 kg bergerak di atas lantai kasar dengan percepatan 1 m/s². Jika gaya total yang bekerja pada peti adalah 40 N, berapakah gaya gesekan yang dialami peti tersebut?",
-      answer: "20" },
-    { question: "Sebuah balok bermassa 8 kg didorong dengan gaya 40 N pada bidang miring licin",
-      answer: "5" },
-    { question: "Sebuah pegas memiliki konstanta pegas  k = 200 N/m . Jika pegas ditarik hingga mengalami pertambahan panjang sebesar 0,1 m, berapakah besar gaya yang diperlukan untuk menarik pegas tersebut?",
-      answer: "20" },
-    { question: "Sebuah balok dengan massa 5 kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah 0,4. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut?",
-      answer: "19,6" },
-    { question: "Sebuah balok bermassa 4 kg ditarik di atas permukaan kasar dengan gaya horizontal sebesar 30 N. Koefisien gesek kinetis antara balok dan permukaan adalah 0,2. Berapakah percepatan balok tersebut?",
-      answer: "5,54" },
-   
-    // Tambahkan soal lainnya sesuai kebutuhan
+// Question generation functions
+const generateQuestions = () => {
+  const generateQuestion1 = () => {
+    const F1 = Math.floor(Math.random() * 99) + 1;
+    const F2 = Math.floor(Math.random() * 99) + 1;
+    const answer = F1 + F2;
+    const question = `Seorang wanita mendorong sebuah meja dengan gaya F1 = ${F1} N ke arah timur, dan temannya juga mendorong meja dengan gaya F2 = ${F2} N ke arah yang sama. Berapa besar gaya total yang bekerja pada meja tersebut?`;
+    const solution = `Diketahui: F1 = ${F1} N, F2 = ${F2} N; Gaya total = F1 + F2 = ${answer} N`;
+    return { id: 1, question, answer: answer.toFixed(2), solution };
+  };
+
+  const generateQuestion2 = () => {
+    const F1 = Math.floor(Math.random() * 99) + 1;
+    const F2 = Math.floor(Math.random() * 99) + 1;
+    const answer = F1 - F2;
+    const question = `Seorang wanita mendorong meja dengan gaya F1 = ${F1} N ke utara, temannya mendorong meja dengan gaya F2 = ${F2} N ke selatan. Berapa besar gaya resultan yang bekerja pada meja tersebut?`;
+    const solution = `Diketahui: F1 = ${F1} N, F2 = ${F2} N; F resultan = F1 - F2 = ${answer} N`;
+    return { id: 2, question, answer: answer.toFixed(2), solution };
+  };
+
+  const generateQuestion3 = () => {
+    const massa = Math.floor(Math.random() * 99) + 1;
+    const gravity = 9.8;
+    const answer = massa * gravity;
+    const question = `Berapa besar gaya gravitasi yang bekerja pada benda dengan massa ${massa} kg?`;
+    const solution = `Diketahui: massa = ${massa} kg, g = ${gravity} m/s²; Gaya gravitasi = massa × g = ${answer} N`;
+    return { id: 3, question, answer: answer.toFixed(2), solution };
+  };
+
+  function generateQuestion4() {
+    const massa = Math.floor(Math.random() * 99) + 1;
+    const total = Math.floor(Math.random() * 99) + 1;
+    let gesek;
+    do {
+        gesek = Math.floor(Math.random() * 99) + 1;
+    } while (gesek >= total);
+    const resultan = total - gesek;
+    const answer = resultan / massa;
+    const question = `Sebuah gaya ${total} N bekerja pada sebuah benda bermassa ${massa} kg. Jika gaya gesekan yang melawan gerak benda sebesar ${gesek} N, berapakah percepatan benda tersebut?`;
+    const solution = `Diketahui: Gaya total = ${total} N, Gaya gesekan = ${gesek} N, Massa = ${massa} kg; Percepatan = (Gaya total - Gaya gesekan) / Massa = (${total} - ${gesek}) / ${massa} = ${answer.toFixed(2)} m/s²`;
+    return { id: 4, question, answer: answer.toFixed(2), solution };
+  };
+
+  function generateQuestion5() {
+    const massa = Math.floor(Math.random() * 99) + 1;
+    const percepatan = Math.floor(Math.random() * 99) + 1;
+    const total = Math.floor(Math.random() * 99) + 1;
+    const resultan = massa * percepatan;
+    const answer = total - resultan;
+    const question = `Sebuah peti bermassa ${massa} kg bergerak di atas lantai kasar dengan percepatan ${percepatan} m/s². Jika gaya total yang bekerja pada peti adalah ${total} N, berapakah gaya gesekan yang dialami peti tersebut?`;
+    const solution = `Diketahui: Massa = ${massa} kg, Percepatan = ${percepatan} m/s², Gaya total = ${total} N; Gaya gesekan = Gaya total - (Massa * Percepatan) = ${total} - (${massa} * ${percepatan}) = ${answer.toFixed(2)} N`;
+    return { id: 5, question, answer: answer.toFixed(2), solution };
+  }
+
+  function generateQuestion6() {
+    const massa = Math.floor(Math.random() * 99) + 1;
+    const gaya = Math.floor(Math.random() * 99) + 1;
+    const answer = massa / gaya;
+    const question = `Sebuah balok bermassa ${massa} kg didorong dengan gaya ${gaya} N pada bidang miring licin.`;
+    const solution = `Diketahui: Massa = ${massa} kg, Gaya = ${gaya} N; Percepatan = Massa / Gaya = ${massa} / ${gaya} = ${answer.toFixed(2)} m/s²`;
+    return { id: 6, question, answer: answer.toFixed(2), solution };
+  }
+
+  function generateQuestion7() {
+    const konstanta = Math.floor(Math.random() * 99) + 1;
+    const panjang = Math.floor(Math.random() * 99) + 1;
+    const answer = konstanta * panjang;
+    const question = `Sebuah pegas memiliki konstanta pegas k = ${konstanta} N/m . Jika pegas ditarik hingga mengalami pertambahan panjang sebesar ${panjang} m, berapakah besar gaya yang diperlukan untuk menarik pegas tersebut?`;
+    const solution = `Diketahui: Konstanta pegas k = ${konstanta} N/m, Panjang pertambahan = ${panjang} m; Gaya = k * Panjang = ${konstanta} * ${panjang} = ${answer.toFixed(2)} N`;
+    return { id: 7, question, answer: answer.toFixed(2), solution };
+  }
+
+  function generateQuestion8() {
+    const massa = Math.floor(Math.random() * 99) + 1; // 1-99
+    const koefisien = Math.floor(Math.random() * 9) / 10 + 0.1; // 0,1 - 0,9
+    const gravitasi = 10;
+    const answer = massa * koefisien * gravitasi;
+    const question = `Sebuah balok dengan massa ${massa} kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah ${koefisien}. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut jika menggunakan gravitasi ${gravitasi} m/s²?`;
+    const solution = `Diketahui: Massa = ${massa} kg, Koefisien gesek statis = ${koefisien}, Gravitasi = ${gravitasi} m/s²; Gaya horizontal minimum = Massa * Koefisien gesek * Gravitasi = ${massa} * ${koefisien} * ${gravitasi} = ${answer.toFixed(2)} N`;
+    return { id: 8, question, answer: answer.toFixed(2), solution };
+  }
+
+  function generateQuestion9() {
+    const massa = Math.floor(Math.random() * 99) + 1;
+    const gaya = Math.floor(Math.random() * 99) + 1;
+    const koefisien = Math.floor(Math.random() * 9) / 10 + 0.1;
+    const gravitasi = 10;
+    const gesek = koefisien * massa * gravitasi;
+    const answer = gaya - gesek;
+    const question = `Sebuah balok bermassa ${massa} kg ditarik di atas permukaan kasar dengan gaya horizontal sebesar ${gaya} N. Koefisien gesek kinetis antara balok dan permukaan adalah ${koefisien}. Berapakah percepatan balok tersebut?`;
+    const solution = `Diketahui: Massa = ${massa} kg, Gaya = ${gaya} N, Koefisien gesek = ${koefisien}, Gravitasi = ${gravitasi} m/s²; Gaya gesekan = Koefisien gesek * Massa * Gravitasi = ${koefisien} * ${massa} * ${gravitasi} = ${gesek.toFixed(2)} N; Percepatan = (Gaya - Gaya gesekan) / Massa = (${gaya} - ${gesek.toFixed(2)}) / ${massa} = ${answer.toFixed(2)} m/s²`;
+    return { id: 9, question, answer: answer.toFixed(2), solution };
+}
+
+
+
+
+
+  // Add other question generators here...
+
+  return [
+    generateQuestion1(),
+    generateQuestion2(),
+    generateQuestion3(),
+    generateQuestion4(),
+    generateQuestion5(),
+    generateQuestion6(),
+    generateQuestion7(),
+    generateQuestion8(),
+    generateQuestion9(),
+    // Add the rest of the questions
   ];
+};
 
-  const [shuffledQuestions, setShuffledQuestions] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [userAnswer, setUserAnswer] = useState("");
-  const [feedback, setFeedback] = useState("");
-  const [quizComplete, setQuizComplete] = useState(false);
-  const [quizStarted, setQuizStarted] = useState(false); // Menyimpan status quiz (dimulai atau belum)
+// QuestionCard Component
+const QuestionCard = ({ question, userAnswers, handleAnswerInput }) => (
+  <Card key={question.id} className="shadow-lg mb-4">
+    <CardBody className="space-y-6">
+      <div className="space-y-4">
+        <div className="font-medium">Soal No {question.id}</div>
+        <p className="text-gray-700">{question.question}</p>
+        <Input
+          type="number"
+          placeholder="Masukkan jawaban"
+          value={userAnswers[question.id] || ''}
+          onChange={(e) => handleAnswerInput(question.id, e.target.value)}
+          className="w-full max-w-xs"
+        />
+      </div>
+    </CardBody>
+  </Card>
+);
 
-  // Mengacak soal saat komponen pertama kali dimuat
+// SolutionCard Component
+const SolutionCard = ({ question, userAnswers }) => (
+  <Card key={question.id} className="mb-4 p-4">
+    <div className="space-y-4">
+      <div className="font-medium">Soal No {question.id}</div>
+      <p className="text-gray-700">{question.question}</p>
+    </div>
+    <pre className="whitespace-pre-wrap font-mono text-sm mt-4">
+      {question.solution}
+    </pre>
+    <div className="mt-2">
+      <span className={`text-lg ${parseFloat(userAnswers[question.id]) === parseFloat(question.answer) ? 'text-green-500' : 'text-red-500'}`}>
+        {parseFloat(userAnswers[question.id]) === parseFloat(question.answer) ? 'Benar' : 'Salah'}
+      </span>
+    </div>
+  </Card>
+);
+
+// ProgressCircle Component
+const ProgressCircle = ({ progress }) => (
+  <Card className="shadow-lg">
+    <CardBody className="flex items-center justify-center p-6">
+      <div className="relative w-24 h-[120px]">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-2xl font-semibold text-green-600">
+            {progress}%
+          </span>
+        </div>
+        <Progress value={progress} className="w-24 h-24 rounded-full" />
+      </div>
+    </CardBody>
+  </Card>
+);
+
+// NavigationPanel Component
+const NavigationPanel = ({ navigationSections, currentSection, handleSectionChange }) => (
+  <Card className="shadow-lg">
+    <CardBody className="space-y-4">
+      <div className="font-medium">Panel Navigasi</div>
+      <div className="space-y-2">
+        {navigationSections.map((section, index) => (
+          <Button
+            key={index}
+            variant={currentSection === index ? "solid" : "outline"}
+            color="primary"
+            fullWidth
+            onClick={() => handleSectionChange(index)}
+          >
+            {section}
+          </Button>
+        ))}
+      </div>
+    </CardBody>
+  </Card>
+);
+
+// SubmitButton Component
+const SubmitButton = ({ setSubmitted }) => (
+  <div className="mt-6">
+    <Button
+      onClick={() => setSubmitted(true)}
+      fullWidth
+      color="success"
+    >
+      Submit Soal
+    </Button>
+  </div>
+);
+
+const Quiz = () => {
+  const [progress, setProgress] = useState(0);
+  const [currentSection, setCurrentSection] = useState(0);
+  const [userAnswers, setUserAnswers] = useState({});
+  const [activeQuestions, setActiveQuestions] = useState([]);
+  const [submitted, setSubmitted] = useState(false);
+
+  const navigationSections = ['Nomor 1 - 3', 'Nomor 4 - 6', 'Nomor 7 - 9'];
+
+  // Initialize questions on mount
   useEffect(() => {
-    setShuffledQuestions(questions.sort(() => Math.random() - 0.5));
+    setActiveQuestions(generateQuestions());
   }, []);
 
-  // Handle submit jawaban
-  const handleSubmit = () => {
-    const correctAnswer = shuffledQuestions[currentQuestion].answer;
-
-    // Cek apakah jawaban benar
-    if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-      setFeedback("Benar! Hebat, kamu berhasil menjawab soal dengan tepat!");
-
-      // Cek jika sudah menjawab soal terakhir
-      setQuizComplete(true)
-    } else {
-      setFeedback("Jawaban salah. Coba lagi dengan soal yang baru!");
-      setUserAnswer(""); // Reset jawaban
-      // Acak soal dan tampilkan soal baru jika jawaban salah
-      setCurrentQuestion(Math.floor(Math.random() * shuffledQuestions.length)); 
-    }
+  const getCurrentQuestions = () => {
+    const startIndex = currentSection * 3;
+    return activeQuestions.slice(startIndex, startIndex + 3);
   };
 
-  // Mulai quiz
-  const startQuiz = () => {
-    setQuizStarted(true);
+  const handleAnswerInput = (questionId, value) => {
+    setUserAnswers(prev => ({ ...prev, [questionId]: value }));
   };
 
-  // Restart quiz
-  const restartQuiz = () => {
-    setQuizComplete(false);
-    setCurrentQuestion(0);
-    setUserAnswer("");
-    setFeedback("");
-    setQuizStarted(true);
-  };
+  useEffect(() => {
+    const answeredQuestions = Object.keys(userAnswers).length;
+    const newProgress = Math.round((answeredQuestions / activeQuestions.length) * 100);
+    setProgress(newProgress);
+  }, [userAnswers, activeQuestions.length]);
 
-  // Exit quiz
-  const handleExitQuiz = () => {
-    setQuizStarted(false);
-    setQuizComplete(false);
-    setCurrentQuestion(0);
-    setUserAnswer("");
-    setFeedback("");
+  const getCorrectAnswersCount = () => {
+    return activeQuestions.reduce((count, question) => {
+      return parseFloat(userAnswers[question.id]) === parseFloat(question.answer) ? count + 1 : count;
+    }, 0);
   };
 
   return (
     <main className="mx-24">
       <Navbar />
-      <div className="flex justify-center items-center min-h-[94dvh] relative">
-        <div className="absolute inset-0"></div>
-        <Card className="relative p-8 w-96 max-w-sm bg-white bg-opacity-60 backdrop-blur-md shadow-lg rounded-lg">
-          {/* Menampilkan bagian awal quiz jika belum dimulai */}
-          {!quizStarted ? (
-            <>
-              <h2 className="text-center text-black mb-4">QUIKA | Quizz Fisika</h2>
-              <Button onClick={startQuiz} color="primary" className="w-full">
-                Mulai Quiz
-              </Button>
-            </>
-          ) : (
-            <>
-              {/* Menampilkan bagian quiz jika sedang berlangsung */}
-              {quizComplete ? (
-                <div className="text-center">
-                  <p className="text-black">Selamat, Anda telah menyelesaikan quiz!</p>
-                  <Button onClick={restartQuiz} color="primary" className="w-full mt-4">
-                    Mulai Lagi
-                  </Button>
-                  <Button onClick={handleExitQuiz} color="secondary" className="w-full mt-4">
-                    Akhiri Quiz
-                  </Button>
-                </div>
-              ) : (
-                <>
-                  <h2 className="text-center text-black mb-4">QUIKA | Quizz Fisika</h2>
-                  <div className="mb-4">
-                    <p className="text-black">{shuffledQuestions[currentQuestion]?.question}</p>
-                  </div>
-                  <Input
-                    aria-label="Your answer"
-                    value={userAnswer}
-                    onChange={(e) => setUserAnswer(e.target.value)}
-                    fullWidth
-                    clearable
-                    className="mb-4"
+      <div className="flex justify-center items-center min-h-[94.8dvh] relative">
+        <div className="flex gap-4 p-4">
+          <div className="flex-1">
+            {!submitted ? (
+              getCurrentQuestions().map((question) => (
+                <QuestionCard
+                  key={question.id}
+                  question={question}
+                  userAnswers={userAnswers}
+                  handleAnswerInput={handleAnswerInput}
+                />
+              ))
+            ) : (
+              <div className="space-y-4">
+                {activeQuestions.map((question) => (
+                  <SolutionCard
+                    key={question.id}
+                    question={question}
+                    userAnswers={userAnswers}
                   />
-                  <Button onClick={handleSubmit} color="primary" className="mb-4 w-full">
-                    Simpan
-                  </Button>
-                  {feedback && (
-                    <p
-                      className={`text-center ${
-                        feedback.includes("Benar") ? "text-green-500" : "text-red-500"
-                      }`}
-                    >
-                      {feedback}
-                    </p>
-                  )}
-                </>
-              )}
-            </>
-          )}
-        </Card>
+                ))}
+                <div className="mt-6 font-medium">
+                  Total Benar: {getCorrectAnswersCount()} dari {activeQuestions.length}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="w-64 space-y-4">
+            <ProgressCircle progress={progress} />
+            {!submitted && (
+              <NavigationPanel
+                navigationSections={navigationSections}
+                currentSection={currentSection}
+                handleSectionChange={setCurrentSection}
+              />
+            )}
+            <SubmitButton setSubmitted={setSubmitted} />
+          </div>
+        </div>
       </div>
     </main>
   );
 };
 
-export default Quizz;
-
+export default Quiz;
