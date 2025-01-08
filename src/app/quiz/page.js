@@ -80,16 +80,25 @@ const generateQuestions = () => {
     }
 
     function generateQuestion6() {
-        const massa = Math.floor(Math.random() * 99) + 1
-        const gaya = Math.floor(Math.random() * 99) + 1
-        const answer = massa / gaya
-        const question = `Sebuah balok bermassa ${massa} kg didorong dengan gaya ${gaya} N pada bidang miring licin.`
+        const jarakUtara = Math.floor(Math.random() * 99) + 1; // Jarak ke utara
+        const jarakTimur = Math.floor(Math.random() * 99) + 1; // Jarak ke timur
+        const jarakTotal = Math.sqrt(jarakUtara ** 2 + jarakTimur ** 2).toFixed(2); // Menggunakan teorema Pythagoras
+
+        const question = `Budi bersepeda sejauh ${jarakUtara} km ke arah utara. Kemudian, ia berbelok dan melanjutkan perjalanan sejauh ${jarakTimur} km ke arah timur. Berapakah jarak total yang ditempuh Budi?`;
+
         const solution = `
-        Diketahui: 
-        Massa = ${massa} kg
-        Gaya = ${gaya} N
-        Percepatan = Massa / Gaya = ${massa} / ${gaya} = ${answer.toFixed(2,)} m/s²`
-        return { id: 6, question, answer: answer.toFixed(2), solution }
+        Diketahui:
+        Jarak ke utara = ${jarakUtara} km
+        Jarak ke timur = ${jarakTimur} km
+
+        Menggunakan teorema Pythagoras:
+        Jarak total = √(Jarak ke utara² + Jarak ke timur²) 
+                    = √(${jarakUtara}² + ${jarakTimur}²)
+                    = √(${(jarakUtara ** 2)} + ${(jarakTimur ** 2)})
+                    = ${jarakTotal} km
+        `;
+
+return { id: 6, question, answer: jarakTotal, solution };
     }
 
     function generateQuestion7() {
@@ -106,19 +115,26 @@ const generateQuestions = () => {
     }
 
     function generateQuestion8() {
-        const massa = Math.floor(Math.random() * 99) + 1 // 1-99
-        const koefisien = Math.floor(Math.random() * 9) / 10 + 0.1 // 0,1 - 0,9
-        const gravitasi = 10
-        const answer = massa * koefisien * gravitasi
-        const question = `Sebuah balok dengan massa ${massa} kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah ${koefisien}. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut jika menggunakan gravitasi ${gravitasi} m/s²?`
+        const massa = Math.floor(Math.random() * 10) + 1; // Massa benda dalam kg (acak antara 1 hingga 10)
+        const ketinggian = Math.floor(Math.random() * 100) + 1; // Ketinggian benda dalam meter (acak antara 1 hingga 100)
+        const gayaPotensial = (massa * 9.8 * ketinggian).toFixed(2); // Menghitung gaya potensial gravitasi
+
+        const question = `Sebuah benda bermassa ${massa} kg diletakkan pada ketinggian ${ketinggian} meter dari permukaan tanah. Berapakah gaya potensial gravitasi yang bekerja pada benda tersebut?`;
+
         const solution = `
-        Diketahui: 
-        Massa = ${massa} kg
-        Koefisien gesek statis = ${koefisien}, 
-        Gravitasi = ${gravitasi} m/s²
-        Gaya horizontal minimum = Massa * Koefisien gesek * Gravitasi = ${massa} * ${koefisien} * ${gravitasi} = ${answer.toFixed(2,)} N`
-        return { id: 8, question, answer: answer.toFixed(2), solution }
-    }
+        Diketahui:
+        Massa benda = ${massa} kg
+        Ketinggian benda = ${ketinggian} meter
+        Percepatan gravitasi = 9.8 m/s²
+
+        Menggunakan rumus gaya potensial gravitasi:
+        Gaya potensial = m * g * h
+                      = ${massa} * 9.8 * ${ketinggian}
+                      = ${(massa * 9.8 * ketinggian).toFixed(2)} joule
+        `;
+
+        return { id: 8, question, answer: gayaPotensial, solution };
+            }
 
     function generateQuestion9() {
         const massa = Math.floor(Math.random() * 99) + 1
@@ -138,50 +154,51 @@ const generateQuestions = () => {
     }
 
     function generateQuestion10() {
-    const massa = Math.floor(Math.random() * 99) + 1; // Massa balok (1-99 kg)
-    const koefisien = (Math.floor(Math.random() * 9) + 1) / 10; // Koefisien gesekan statis (0.1 - 0.9)
-    const gravitasi = 10; // Percepatan gravitasi (m/s²)
-    const answer = massa * koefisien * gravitasi;
-    const question = `Sebuah balok dengan massa ${massa} kg berada di atas permukaan datar. Koefisien gesek statis antara balok dan permukaan adalah ${koefisien}. Berapakah gaya horizontal minimum yang diperlukan untuk menggerakkan balok tersebut jika gravitasi adalah ${gravitasi} m/s²?`;
-    const solution = `
-    Diketahui: 
-    Massa (m) = ${massa} kg
-    Koefisien gesek statis (μ) = ${koefisien}
-    Gravitasi (g) = ${gravitasi} m/s²
-    
-    Rumus gaya horizontal minimum:
-    F_min = μ * m * g
-    
-    Substitusi nilai:
-    F_min = ${koefisien} * ${massa} * ${gravitasi}
-    F_min = ${answer.toFixed(2)} N
-    
-    Jadi, gaya horizontal minimum yang diperlukan adalah ${answer.toFixed(2)} N.`;
+    const jarakUtara10 = Math.floor(Math.random() * 99) + 1; // Jarak ke utara
+    const jarakTimur10 = Math.floor(Math.random() * 99) + 1; // Jarak ke timur
+    const jarakTotal10 = Math.sqrt(jarakUtara10 * 2 + jarakTimur10 * 2).toFixed(2); // Menggunakan teorema Pythagoras
 
-    return { id: 10, question, answer: answer.toFixed(2), solution };
-}
+    const question = `Budi bersepeda sejauh ${jarakUtara10} km ke arah utara. Kemudian, ia berbelok dan melanjutkan perjalanan sejauh ${jarakTimur10} km ke arah timur. Berapakah jarak total yang ditempuh Budi?`;
+
+    const solution = `
+    Diketahui:
+    Jarak ke utara = ${jarakUtara10} km
+    Jarak ke timur = ${jarakTimur10} km
+
+    Menggunakan teorema Pythagoras:
+    Jarak total = √(Jarak ke utara² + Jarak ke timur²) 
+                = √(${jarakUtara10}² + ${jarakTimur10}²)
+                = √(${(jarakUtara10 * 2)} + ${(jarakTimur10 * 2)})
+                = ${jarakTotal10} km
+    `;
+
+    return { id: 10, question, answer: jarakTotal10, solution };
+    }
     
 function generateQuestion11() {
-    const k = Math.floor(Math.random() * 100) + 1; // Konstanta pegas (1-100 N/m)
-    const x = (Math.floor(Math.random() * 100) + 1) / 100; // Perubahan panjang pegas (0.01 - 1 meter)
-    const answer = k * x;
-    const question = `Sebuah pegas memiliki konstanta pegas ${k} N/m. Jika pegas ditarik sehingga bertambah panjang sejauh ${x} meter, berapa besar gaya yang diberikan oleh pegas?`;
-    const solution = `
-    Diketahui: 
-    Konstanta pegas (k) = ${k} N/m
-    Perubahan panjang pegas (x) = ${x} m
-    
-    Rumus gaya pegas (Hukum Hooke):
-    F = k * x
-    
-    Substitusi nilai:
-    F = ${k} * ${x}
-    F = ${answer.toFixed(2)} N
-    
-    Jadi, besar gaya yang diberikan oleh pegas adalah ${answer.toFixed(2)} N.`;
+    const massa = 3; // Massa benda dalam kg
+    const tinggi = 2; // Tinggi meja dalam meter
+    const g = 10; // Percepatan gravitasi dalam m/s^2
 
-    return { id: 11, question, answer: answer.toFixed(2), solution };
-}
+    // Menghitung energi potensial gravitasi
+    const energiPotensial = (massa * g * tinggi).toFixed(2); // Energi potensial (Ep = m * g * h)
+
+    const question = `Sebuah benda bermassa ${massa} kg berada di atas meja setinggi ${tinggi} m. Jika percepatan gravitasi g = ${g} m/s², berapakah energi potensial gravitasi benda tersebut?`;
+
+    const solution = `
+    Diketahui:
+    - Massa benda (m) = ${massa} kg
+    - Tinggi meja (h) = ${tinggi} m
+    - Percepatan gravitasi (g) = ${g} m/s²
+
+    Menggunakan rumus energi potensial gravitasi:
+    Ep = m * g * h
+      = ${massa} * ${g} * ${tinggi}
+      = ${energiPotensial} Joule
+    `;
+
+    return { id: 11, question, answer: energiPotensial, solution };
+    }
 
 function generateQuestion12() {
     const massa = Math.floor(Math.random() * 99) + 1; // Massa balok (1-99 kg)
