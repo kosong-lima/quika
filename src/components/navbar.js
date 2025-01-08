@@ -9,7 +9,7 @@ export default function Navbar() {
                 <p className="pr-10 font-bold">QUIKA</p>
                 <nav className="flex font-semibold ">
                     <MenuHeader href="/home">Home</MenuHeader>
-                    <MenuHeader href="/quizz">Quizz</MenuHeader>
+                    <MenuHeader href="/quiz">Quizz</MenuHeader>
                     <MenuHeader href="">Support</MenuHeader>
                 </nav>
             </div>
